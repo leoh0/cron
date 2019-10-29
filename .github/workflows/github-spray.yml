@@ -26,10 +26,10 @@ jobs:
     - name: Update repository
       uses: docker://leoh0/github-spray:master
       env:
-        USERNAME: Eohyung Lee
-        USEREMAIL: liquidnuker@gmail.com
-        GITHUB_URL: github.com
-        GITHUB_USER: leoh0
-        GITHUB_TOKEN: ${{ secrets.GithubToken }}
+        USERNAME: "Eohyung Lee"
+        USEREMAIL: "liquidnuker@gmail.com"
+        GITHUB_URL: "github.com"
+        GITHUB_USER: "leoh0"
+        GITHUB_TOKEN: "${{ secrets.GithubToken }}"
       with:
         args: -t ${{ steps.date.outputs.date }} --multiplier 3 --push --origin https://github.com/leoh0/d.git
