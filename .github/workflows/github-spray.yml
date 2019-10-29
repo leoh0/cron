@@ -19,6 +19,10 @@ jobs:
           -d "{\"name\": \"d\", \"private\": true}" \
           -H "Authorization: token ${{ secrets.GithubToken }}" \
           "https://api.github.com/user/repos"
+    - name: Get date
+      run: |
+        env TZ=Asia/Seoul date '+%x'
+      id: date
     - name: Update repository
       uses: docker://leoh0/github-spray:master
       env:
@@ -28,4 +32,4 @@ jobs:
         GITHUB_USER: leoh0
         GITHUB_TOKEN: ${{ secrets.GithubToken }}
       with:
-        args: -t \$(env TZ=Asia/Seoul date '+%x') --multiplier 3 --push --origin https://github.com/leoh0/d.git
+        args: -t ${{ steps.date.outputs }} --multiplier 3 --push --origin https://github.com/leoh0/d.git
