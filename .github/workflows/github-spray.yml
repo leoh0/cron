@@ -11,13 +11,13 @@ jobs:
     - name: Delete old repo
       run: |
         curl -s -S -n -XDELETE \
-          -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          -H "Authorization: token ${{ secrets.GithubToken }}" \
           "https://api.github.com/repos/leoh0/d"
     - name: Create new repo
       run: |
         curl -s -S -f -n -XPOST \
           -d "{\"name\": \"d\", \"private\": true}" \
-          -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          -H "Authorization: token ${{ secrets.GithubToken }}" \
           "https://api.github.com/user/repos"
     - name: Update repository
       uses: docker://leoh0/github-spray:master
@@ -26,7 +26,7 @@ jobs:
         USEREMAIL: liquidnuker@gmail.com
         GITHUB_URL: github.com
         GITHUB_USER: leoh0
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GithubToken }}
       with:
         args: |
           -t "$(env TZ=Asia/Seoul date '+%x')" \
