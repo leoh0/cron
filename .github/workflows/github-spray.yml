@@ -1,0 +1,35 @@
+name: github-spray
+
+on:
+  schedule:
+  - cron: '* * * * *'
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Delete old repo
+      run: |
+        curl -s -S -n -XDELETE \
+          -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          "https://api.github.com/repos/leoh0/d"
+    - name: Create new repo
+      run: |
+        curl -s -S -f -n -XPOST \
+          -d "{\"name\": \"d\", \"private\": true}" \
+          -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          "https://api.github.com/user/repos"
+    - name: Update repository
+      uses: docker://leoh0/github-spray:master
+      env:
+        USERNAME: Eohyung Lee
+        USEREMAIL: liquidnuker@gmail.com
+        GITHUB_URL: github.com
+        GITHUB_USER: leoh0
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        args: |
+          -t "$(env TZ=Asia/Seoul date '+%x')" \
+          --multiplier 3 \
+          --push \
+          --origin https://github.com/leoh0/d.git
