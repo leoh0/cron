@@ -24,12 +24,29 @@ jobs:
         echo "##[set-output name=date;]$(env TZ=Asia/Seoul date '+%x')"
       id: date
     - name: Update repository
-      uses: docker://leoh0/github-spray:master
-      env:
-        USERNAME: "Eohyung Lee"
-        USEREMAIL: "liquidnuker@gmail.com"
-        GITHUB_URL: "github.com"
-        GITHUB_USER: "leoh0"
-        GITHUB_TOKEN: "${{ secrets.GithubToken }}"
-      with:
-        args: -t ${{ steps.date.outputs.date }} --multiplier 3 --push --origin https://github.com/leoh0/d.git
+      run: |
+        /usr/bin/docker run --workdir /github/workspace \
+          --rm -e USERNAME="Eohyung Lee" -e USEREMAIL="liquidnuker@gmail.com" \
+          -e GITHUB_URL="github.com" -e GITHUB_USER="leoh0" \
+          -e GITHUB_TOKEN="${{ secrets.GithubToken }}" -e INPUT_ARGS -e HOME \
+          -e GITHUB_REF -e GITHUB_SHA -e GITHUB_REPOSITORY -e GITHUB_ACTOR \
+          -e GITHUB_WORKFLOW -e GITHUB_HEAD_REF -e GITHUB_BASE_REF \
+          -e GITHUB_EVENT_NAME -e GITHUB_WORKSPACE -e GITHUB_ACTION \
+          -e GITHUB_EVENT_PATH -e RUNNER_OS -e RUNNER_TOOL_CACHE \
+          -e RUNNER_TEMP -e RUNNER_WORKSPACE -e ACTIONS_RUNTIME_URL \
+          -e ACTIONS_RUNTIME_TOKEN -e GITHUB_ACTIONS=true \
+          -v "/var/run/docker.sock":"/var/run/docker.sock" \
+          -v "/home/runner/work/_temp/_github_home":"/github/home" \
+          -v "/home/runner/work/_temp/_github_workflow":"/github/workflow" \
+          -v "/home/runner/work/cron/cron":"/github/workspace" \
+          leoh0/github-spray:master -t ${{ steps.date.outputs.date }} \
+          --multiplier 3 --push --origin https://github.com/leoh0/d.git
+#       uses: docker://leoh0/github-spray:master
+#       env:
+#         USERNAME: "Eohyung Lee"
+#         USEREMAIL: "liquidnuker@gmail.com"
+#         GITHUB_URL: "github.com"
+#         GITHUB_USER: "leoh0"
+#         GITHUB_TOKEN: "${{ secrets.GithubToken }}"
+#       with:
+#         args: -t ${{ steps.date.outputs.date }} --multiplier 3 --push --origin https://github.com/leoh0/d.git
