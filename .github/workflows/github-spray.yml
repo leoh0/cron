@@ -2,7 +2,7 @@ name: github-spray
 
 on:
   schedule:
-  - cron: '35 2 * * *'
+  - cron: '1 15 * * *'
 
 jobs:
   update:
