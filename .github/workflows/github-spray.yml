@@ -32,4 +32,4 @@ jobs:
         GITHUB_USER: leoh0
         GITHUB_TOKEN: ${{ secrets.GithubToken }}
       with:
-        args: -t ${{ steps.date.outputs.date }} --multiplier 20 --push --origin https://github.com/leoh0/d.git
+        args: -t ${{ steps.date.outputs.date }} --multiplier 30 --push --origin https://github.com/leoh0/d.git
