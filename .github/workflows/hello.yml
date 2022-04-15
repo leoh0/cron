@@ -1,0 +1,24 @@
+name: hello
+
+on:
+  schedule:
+  - cron: '13 13 13 * *'
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'
+        required: true
+        default: 'warning'
+      tags:
+        description: 'Test scenario tags'
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Clone and update
+      run: |
+        git clone https://${{ secrets.GithubToken }}@github.com/leoh0/cron.git && cd cron
+        git -c user.name="Eohyung Lee" -c user.email="liquidnuker@gmail.com" \
+          commit -m "breath" --allow-empty
+        git push origin master
